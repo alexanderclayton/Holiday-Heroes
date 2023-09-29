@@ -1,10 +1,12 @@
 //import//
 
+import { AddClient } from "./components/AddClient";
+
 function App() {
 
   return (
     <>
-      <p className='font-bold'>Hello World</p>
+      <AddClient />
     </>
   )
 }
