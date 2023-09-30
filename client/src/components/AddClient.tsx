@@ -1,7 +1,11 @@
 //import//
 import { useState } from "react";
 
-export const AddClient: React.FC = () => {
+interface AddClientProps {
+  setModal: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const AddClient: React.FC<AddClientProps> = ({setModal}) => {
   const [name, setName] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [city, setCity] = useState<string>("");
@@ -12,22 +16,25 @@ export const AddClient: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    fetch("http://localhost:5000/clients", {
-      method: "POST",
-      body: JSON.stringify({
-        name,
-        address,
-        city,
-        state,
-        zipCode,
-        colors,
-        paid,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    console.log(name, address, city, colors, paid)
+    try {
+      fetch("http://localhost:5000/clients", {
+        method: "POST",
+        body: JSON.stringify({
+          name,
+          address,
+          city,
+          state,
+          zipCode,
+          colors,
+          paid,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -116,6 +123,7 @@ export const AddClient: React.FC = () => {
           />
         </div>
         <button className="bg-green-300 p-2 rounded-lg">Add Client</button>
+        <button onClick={() => setModal(false)} className="bg-red-300 p-2 rounded-lg">Cancel</button>
       </form>
     </>
   );
