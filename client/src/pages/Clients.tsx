@@ -1,8 +1,10 @@
 //import//
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { AddClient } from "../components/AddClient";
 
 type TClient = {
+  _id: string,
   name: string;
   address: string;
   city: string;
@@ -16,6 +18,8 @@ export const Clients: React.FC = () => {
   const [clients, setClients] = useState<TClient[]>([]);
   const [modal, setModal] = useState<boolean>(false)
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     const fetchClients = async () => {
       const clientResponse = await fetch("http://localhost:5000/clients");
@@ -28,7 +32,7 @@ export const Clients: React.FC = () => {
   return (
     <div>
       {clients.map((client) => (
-        <div className="flex w-full justify-around">
+        <div key={client._id} onClick={() => navigate(`/clients/${client._id}`)} className="flex w-full justify-around">
           <p className="w-[25%]">{client.name}</p>
           <p className="w-[25%]">{client.address}</p>
           <p className="w-[25%]">{client.colors}</p>

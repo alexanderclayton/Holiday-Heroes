@@ -22,6 +22,15 @@ app.get("/clients", async (req: Request, res: Response) => {
   }
 });
 
+app.get("/clients/:id", async (req: Request, res: Response) => {
+  try {
+    const client = await Client.findById(req.params.id);
+    res.json(client);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 app.post("/clients", async (req: Request, res: Response) => {
   try {
     const newClient = new Client({
