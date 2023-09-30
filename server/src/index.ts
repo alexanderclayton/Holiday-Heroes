@@ -5,6 +5,7 @@ import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import Client from "./models/Client";
+import Expense from './models/Expense'
 
 const PORT = 5000;
 
@@ -48,6 +49,30 @@ app.post("/clients", async (req: Request, res: Response) => {
     console.error(error);
   }
 });
+
+app.get('/expenses', async (req: Request, res: Response) => {
+  try {
+    const expense = await Expense.find()
+    res.json(expense)
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+app.post('/expenses', async (req: Request, res: Response) => {
+  try {
+    const newExpense = new Expense({
+      name: req.body.name,
+      cost: req.body.cost,
+      date: req.body.date,
+      type: req.body.type
+    })
+    const createdExpense = await newExpense.save()
+    res.json(createdExpense)
+  } catch (error) {
+    console.error(error)
+  }
+})
 
 mongoose.connect(process.env.MONGO_URI!).then(() => {
   console.log(`succesfully connected to MongoDB!`);

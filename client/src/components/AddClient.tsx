@@ -17,7 +17,7 @@ export const AddClient: React.FC<AddClientProps> = ({setModal}) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      fetch("http://localhost:5000/clients", {
+      await fetch("http://localhost:5000/clients", {
         method: "POST",
         body: JSON.stringify({
           name,
